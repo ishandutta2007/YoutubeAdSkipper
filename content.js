@@ -5,22 +5,62 @@
   let skipAttempts = 0;
   const MAX_SKIP_ATTEMPTS = 10;
   let observerActive = false;
+  let skipRules = {
+    skipDelay: 0,
+    skipOverlayAds: true,
+    skipVideoAds: true,
+    whitelistedChannels: [],
+    customWaitTime: false
+  };
+
+  // Function to check if current channel is whitelisted
+  function isChannelWhitelisted() {
+    const channelName = document.querySelector('#channel-name yt-formatted-string')?.textContent?.trim();
+    return channelName && skipRules.whitelistedChannels.includes(channelName);
+  }
+
+  // Load skip rules from storage
+  function loadSkipRules() {
+    chrome.storage.sync.get({ skipRules: skipRules }, (items) => {
+      skipRules = items.skipRules;
+    });
+  }
 
   // Function to skip ads
   function skipAd() {
-    // Method 1: Click skip button if available
+    // Check if we're on a whitelisted channel
+    if (isChannelWhitelisted()) {
+      console.log('[Ad Skipper] Channel is whitelisted, not skipping');
+      return false;
+    }
+
+    // Method 1: Click skip button if available and video ads are enabled
     const skipButton = document.querySelector('.ytp-ad-skip-button, .ytp-ad-skip-button-modern, .ytp-skip-ad-button, button[class*="skip"]');
-    if (skipButton) {
-      skipButton.click();
-      console.log('[Ad Skipper] Clicked skip button');
+    if (skipButton && skipRules.skipVideoAds) {
+      if (skipRules.customWaitTime && skipRules.skipDelay > 0) {
+        setTimeout(() => {
+          skipButton.click();
+          console.log(`[Ad Skipper] Clicked skip button after ${skipRules.skipDelay}s delay`);
+        }, skipRules.skipDelay * 1000);
+      } else {
+        skipButton.click();
+        console.log('[Ad Skipper] Clicked skip button');
+      }
       return true;
     }
 
     // Method 2: Check for video ad overlay skip button
     const overlaySkipButton = document.querySelector('.ytp-ad-overlay-close-button, .ytp-ad-overlay-close-container');
-    if (overlaySkipButton) {
-      overlaySkipButton.click();
-      console.log('[Ad Skipper] Clicked overlay skip button');
+    if (overlaySkipButton && skipRules.skipOverlayAds) {
+      if (skipRules.customWaitTime && skipRules.skipDelay > 0) {
+        setTimeout(() => {
+          overlaySkipButton.click();
+          console.log(`[Ad Skipper] Clicked overlay skip button after ${skipRules.skipDelay}s delay`);
+        }, skipRules.skipDelay * 1000);
+      } else {
+        overlaySkipButton.click();
+        console.log('[Ad Skipper] Clicked overlay skip button');
+      }
       return true;
     }
 
@@ -177,6 +217,14 @@
   // Initialize when page loads
   function init() {
     console.log('[Ad Skipper] Initializing...');
+    
+    // Load skip rules and start monitoring for changes
+    loadSkipRules();
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+      if (namespace === 'sync' && changes.skipRules) {
+        skipRules = changes.skipRules.newValue;
+      }
+    });
     
     // Wait for YouTube to load
     if (document.readyState === 'loading') {
