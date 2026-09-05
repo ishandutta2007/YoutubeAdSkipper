@@ -1,214 +1,149 @@
-# YouTube Ad Skipper Chrome Extension
+# YouTube Ad Skipper Chrome Extension — Fast & Automatic YouTube Ad Blocker & Auto Skipper
 
-A Chrome extension that automatically skips YouTube ads for a seamless viewing experience.
+[![Chrome Web Store](https://img.shields.io/badge/Chrome-Extension-blue?logo=googlechrome&logoColor=white)](https://chrome.google.com/webstore)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![GitHub Stars](https://img.shields.io/github/stars/ishandutta2007/YoutubeAdSkipper?style=social)](https://github.com/ishandutta2007/YoutubeAdSkipper)
 
-## Changelog
+An open-source, ultra-lightweight **YouTube Ad Skipper Chrome Extension** that automatically skips video ads, closes popups and banner ads, and mutes non-skippable YouTube ads without breaking video playback. Enjoy seamless, uninterrupted YouTube streaming with customized rules, channel whitelisting, and dark mode support.
 
-- 2025-11-04 — Added Dark Mode (popup theme selector: System / Light / Dark). Theme is persisted via `chrome.storage.sync` and defaults to `system`. Popup styles for light/dark were added and the background service worker initializes the `theme` setting. (Implemented by Valent-p)
+---
 
-## Features
+## ⚡ Overview & Key Benefits
 
-- ✅ Automatically skips skippable ads
-- ✅ Detects and handles overlay ads
-- ✅ Mutes non-skippable ads when possible
-- ✅ Works with dynamically loaded content
-- ✅ Lightweight and fast
+Tired of constant interruptions and waiting through unskippable video ads? **YouTube Ad Skipper** is designed as a smooth, high-performance alternative to heavy ad blockers:
+- **Instant Auto-Skip:** Automatically detects and clicks the "Skip Ad" button the millisecond it appears.
+- **Auto-Mute Ads:** Automatically mutes audio during non-skippable ads so your listening flow is uninterrupted.
+- **Creator-Friendly Whitelisting:** Easily whitelist your favorite YouTube channels to support the creators you love.
+- **Lightweight & Privacy-Focused:** No network overhead, zero tracking, no third-party analytic scripts, and minimal CPU/RAM usage.
+- **Dark Mode & Modern UI:** Match your browser theme or choose between System, Light, and Dark modes.
 
-### Custom Skip Rules (@Valent-p)
+---
 
-- 🎯 Selective Ad Skipping
-  - Toggle video ad skipping
-  - Toggle overlay ad skipping
-  - Customize wait time before skipping (0-10 seconds)
-  
-- 🎮 Channel Management
-  - Whitelist your favorite content creators
-  - Support creators by allowing their ads
-  - Easy channel management through popup interface
+## 🚀 Features
 
-- ⚙️ Flexible Configuration
-  - All settings sync across devices
-  - Settings persist between sessions
-  - Real-time configuration updates
+- ⚡ **Automated Ad Skipping:** Clicks "Skip Ad" buttons instantly with zero delay or custom configurable delays (0–10s).
+- 🚫 **Overlay & Banner Ad Removal:** Automatically detects, hides, and dismisses overlay ads and banner teasers.
+- 🔇 **Smart Mute for Non-Skippable Ads:** Automatically mutes the video player when ads cannot be skipped immediately and restores volume once the video resumes.
+- 🎯 **Custom Skip Rules:** Toggle video ad skipping and banner ad dismissal independently.
+- 🤍 **Channel Whitelist Management:**
+  - Whitelist specific YouTube channels directly from the popup.
+  - Support your favorite content creators while blocking ads on the rest of YouTube.
+- 🌙 **Theme & Dark Mode Support:**
+  - System default, Light, and Dark themes.
+  - Automatically matches your operating system appearance.
+- 🔄 **Cross-Device Sync:** Settings and whitelisted channels sync across devices via `chrome.storage.sync`.
+- 🔋 **Single-Page Application (SPA) Optimized:** Seamlessly works through YouTube's dynamic page transitions and playlist autoplay.
 
-## Installation
+---
 
-### Method 1: Load Unpacked Extension (Development)
+## 📦 Installation & Setup
 
-1. Open Chrome and navigate to `chrome://extensions/`
-2. Enable "Developer mode" (toggle in top right)
-3. Click "Load unpacked"
-4. Select the folder containing this extension
-5. The extension is now installed!
+### Option 1: Load Unpacked Extension (Developer Mode)
 
-### Method 2: Package Extension (For Distribution)
+1. Clone or download this repository:
+   ```bash
+   git clone https://github.com/ishandutta2007/YoutubeAdSkipper.git
+   ```
+2. Open Google Chrome and navigate to `chrome://extensions/`.
+3. Enable **Developer mode** toggle in the top-right corner.
+4. Click **Load unpacked** in the top-left menu.
+5. Select the project directory (`YoutubeAdSkipper`).
+6. The extension is now active on [YouTube](https://www.youtube.com/)!
 
-1. Open Chrome and navigate to `chrome://extensions/`
-2. Enable "Developer mode"
-3. Click "Pack extension"
-4. Select the extension directory
-5. A `.crx` file will be created
+### Option 2: Package Extension (.crx)
 
-## How It Works
+1. In Chrome, go to `chrome://extensions/`.
+2. Enable **Developer mode**.
+3. Click **Pack extension** and specify the project root folder.
+4. Chrome will generate a `.crx` distribution file and a `.pem` key file.
 
-The extension uses a content script that:
-- Monitors the YouTube page for ad elements
-- Detects skip buttons and automatically clicks them
-- Uses a MutationObserver to catch dynamically loaded ads
-- Periodically checks for ads every 500ms
-- Handles YouTube's single-page application navigation
+---
 
-## File Structure
+## 🛠️ How It Works
 
-```
-YoutubeAdSkipper/
-├── manifest.json       # Extension configuration
-├── content.js          # Main ad-skipping logic
-├── background.js       # Service worker
-├── popup.html          # Extension popup UI
-├── popup.js            # Popup script
-├── icons/              # Extension icons (you need to add these)
-│   ├── icon16.png
-│   ├── icon48.png
-│   └── icon128.png
-└── README.md           # This file
-```
+1. **MutationObserver & Interval Fallback:** Employs a highly optimized DOM `MutationObserver` combined with an interval check to detect ad banners, video overlays, and skip buttons as soon as they render.
+2. **Dynamic SPA Navigation Support:** Uses `yt-navigate-finish` listeners and YouTube DOM events to smoothly maintain skip functionality during continuous playlist playback.
+3. **Audio Control:** Hooks into YouTube's HTML5 video element (`<video>`) to mute ad audio without breaking player state.
 
-## Icons
+---
 
-You need to create icon files for the extension:
-- `icons/icon16.png` (16x16 pixels)
-- `icons/icon48.png` (48x48 pixels)
-- `icons/icon128.png` (128x128 pixels)
-
-You can create simple icons or use online icon generators.
-# YouTube Ad Skipper Chrome Extension
-
-A Chrome extension that automatically skips YouTube ads for a seamless viewing experience.
-
-## Features
-
-- ✅ Automatically skips skippable ads
-- ✅ Detects and handles overlay ads
-- ✅ Mutes non-skippable ads when possible
-- ✅ Works with dynamically loaded content
-- ✅ Lightweight and fast
-
-### Custom Skip Rules (@Valent-p)
-
-- 🎯 Selective Ad Skipping
-  - Toggle video ad skipping
-  - Toggle overlay ad skipping
-  - Customize wait time before skipping (0-10 seconds)
-  
-- 🎮 Channel Management
-  - Whitelist your favorite content creators
-  - Support creators by allowing their ads
-  - Easy channel management through popup interface
-
-- ⚙️ Flexible Configuration
-  - All settings sync across devices
-  - Settings persist between sessions
-  - Real-time configuration updates
-
-### Dark Mode
-
-- 🌙 Theme options: System / Light / Dark
-- Choose a theme from the popup; selection is persisted and syncs across devices
-- "System" follows the OS color-scheme while the popup is open
-
-## Installation
-
-### Method 1: Load Unpacked Extension (Development)
-
-1. Open Chrome and navigate to `chrome://extensions/`
-2. Enable "Developer mode" (toggle in top right)
-3. Click "Load unpacked"
-4. Select the folder containing this extension
-5. The extension is now installed!
-
-### Method 2: Package Extension (For Distribution)
-
-1. Open Chrome and navigate to `chrome://extensions/`
-2. Enable "Developer mode"
-3. Click "Pack extension"
-4. Select the extension directory
-5. A `.crx` file will be created
-
-## How It Works
-
-The extension uses a content script that:
-
-- Monitors the YouTube page for ad elements
-- Detects skip buttons and automatically clicks them
-- Uses a MutationObserver to catch dynamically loaded ads
-- Periodically checks for ads every 500ms
-- Handles YouTube's single-page application navigation
-
-## File Structure
+## 📂 Project Structure
 
 ```text
 YoutubeAdSkipper/
-├── manifest.json       # Extension configuration
-├── content.js          # Main ad-skipping logic
-├── background.js       # Service worker
-├── popup.html          # Extension popup UI
-├── popup.js            # Popup script
-├── icons/              # Extension icons (you need to add these)
+├── manifest.json       # Manifest V3 extension configuration
+├── content.js          # Core ad detection and auto-skip logic
+├── background.js       # Background service worker (theme & settings sync)
+├── popup.html          # Extension settings & whitelisting interface
+├── popup.js            # Popup controls, toggles, and UI interactions
+├── icons/              # Browser extension action icons
 │   ├── icon16.png
 │   ├── icon48.png
 │   └── icon128.png
-└── README.md           # This file
+└── README.md           # Documentation
 ```
 
-## Icons
+---
 
-You need to create icon files for the extension:
+## 🔒 Permissions & Privacy
 
-- `icons/icon16.png` (16x16 pixels)
-- `icons/icon48.png` (48x48 pixels)
-- `icons/icon128.png` (128x128 pixels)
+This extension strictly abides by minimal-privilege principles and respects user privacy:
+- **`activeTab` & `scripting`:** Used solely to interact with active YouTube video pages and apply user skip settings.
+- **`host_permissions` (`*://*.youtube.com/*`):** Restricted exclusively to YouTube domains.
+- **100% Client-Side:** No telemetry, no external server calls, and no data tracking or analytics. All configurations are stored locally or synced via Chrome's encrypted storage.
 
-You can create simple icons or use online icon generators.
+---
 
-## Permissions
+## ❓ Frequently Asked Questions (FAQ) / Troubleshooting
 
-The extension requires:
+<details>
+<summary><b>Why aren't ads skipping automatically?</b></summary>
 
-- `activeTab`: To interact with YouTube tabs
-- `scripting`: To inject content scripts
-- `host_permissions`: Access to youtube.com
+1. Ensure the extension is enabled in `chrome://extensions/`.
+2. Check if the current channel is on your whitelist in the extension popup.
+3. Refresh the YouTube tab.
+4. Check if other conflicting extensions or ad blockers are interfering.
+</details>
 
-## Troubleshooting
+<details>
+<summary><b>Does this hurt YouTube creators?</b></summary>
 
-If ads aren't being skipped:
+You can support your favorite YouTubers anytime! Use the one-click **Whitelist Channel** button in the popup menu to allow ads on channels you love.
+</details>
 
-1. Make sure you're on a YouTube page
-2. Refresh the page
-3. Check the browser console for any errors
-4. Ensure the extension is enabled in `chrome://extensions/`
+<details>
+<summary><b>Is this extension safe and free?</b></summary>
 
-## Privacy
+Yes. It is completely free, open source, and runs entirely in your browser without collecting personal information.
+</details>
 
-This extension:
+---
 
-- Only runs on YouTube pages
-- Does not collect any personal data
-- Does not send data to external servers
-- All code is local and open source
+## 📝 Changelog
 
-## License
+- **2025-11-04:** Added Dark Mode support (System / Light / Dark) with theme persistence via `chrome.storage.sync`.
+- **Custom Skip Rules:** Introduced adjustable skip delays, independent video/overlay toggles, and channel whitelisting.
 
-This project is open source and available for personal use.
+---
 
-## Contributing
+## 🤝 Contributing
 
-Feel free to submit issues or pull requests to improve the extension!
+Contributions, issues, and feature requests are welcome!
+1. Fork the project.
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
+4. Push to the branch (`git push origin feature/AmazingFeature`).
+5. Open a Pull Request.
 
-## Contributors
+---
 
-- [Valent-p](https://github.com/Valent-p) - Owner and maintainer
-  - Initial extension development
-  - Custom skip rules implementation
-  - Channel whitelist feature
-  - Dark mode implementation
+## 👥 Contributors & Credits
+
+- [Valent-p](https://github.com/Valent-p) — Core development, custom skip rules, channel whitelisting, and dark mode implementation.
+- [ishandutta2007](https://github.com/ishandutta2007) — Repository maintainer.
+
+---
+
+## 📄 License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
