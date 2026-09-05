@@ -164,3 +164,12 @@ Contributions, issues, and feature requests are welcome!
 ## 📄 License 📜
 
 Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
+
+## Star History
+
+<a href="https://star-history.com/#ishandutta2007/YoutubeAdSkipper&Timeline" align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/ishandutta2007_YoutubeAdSkipper_growth.svg">
+    <img alt="Star History Chart" src="assets/ishandutta2007_YoutubeAdSkipper_growth.svg">
+  </picture>
+</a>
